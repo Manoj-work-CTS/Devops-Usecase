@@ -1,0 +1,7 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo "Deploying to S3"
+      - aws s3 cp index.html s3://my-static-site-bucket-123456/ --acl public-read
