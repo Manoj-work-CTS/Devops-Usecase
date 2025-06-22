@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "static_website_bucket" {
-  bucket = "nehanth-bucket-unique-name" 
+  bucket = "Manoj-bucket-unique-name" 
 
   website {
     index_document = "index.html"
@@ -15,7 +15,6 @@ resource "aws_s3_bucket" "static_website_bucket" {
   }
 }
 
-# --- Add this Block Public Access resource ---
 resource "aws_s3_bucket_public_access_block" "static_website_bucket_public_access_block" {
   bucket = aws_s3_bucket.static_website_bucket.id
 
