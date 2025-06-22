@@ -3,5 +3,15 @@ version: 0.2
 phases:
   build:
     commands:
-      - echo "Deploying to S3"
-      - aws s3 cp index.html s3://my-static-site-bucket-123456/ --acl public-read
+      - echo "Starting build process"
+      - echo "No build steps required for static HTML."
+  post_build:
+    commands:
+      - echo "Build complete. Preparing artifacts for deployment."
+
+artifacts:
+  files:
+    - '**/*'             
+  base-directory: '.'    
+  discard-paths: yes     
+  name: website_artifact 
