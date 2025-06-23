@@ -3,7 +3,8 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "static_website_bucket" {
-  bucket = "Manoj-bucket-unique-name" 
+  bucket = "manoj-bucket-unique-name" 
+  
 
   website {
     index_document = "index.html"
@@ -15,19 +16,23 @@ resource "aws_s3_bucket" "static_website_bucket" {
   }
 }
 
+
 resource "aws_s3_bucket_public_access_block" "static_website_bucket_public_access_block" {
   bucket = aws_s3_bucket.static_website_bucket.id
 
-  block_public_acls       = false 
+  # Set these to false to allow public policies for static website hosting
+  block_public_acls       = false # Not strictly needed for bucket policies, but good to set if you ever considered ACLs
   block_public_policy     = false
-  ignore_public_acls      = false 
+  ignore_public_acls      = false # Not strictly needed for bucket policies
   restrict_public_buckets = false
 }
+
 
 
 resource "aws_s3_bucket_policy" "static_website_bucket_policy" {
   bucket = aws_s3_bucket.static_website_bucket.id
 
+  # Ensure this policy allows GetObject for public read
   policy = jsonencode({
     "Version": "2012-10-17",
     "Statement": [
@@ -43,6 +48,7 @@ resource "aws_s3_bucket_policy" "static_website_bucket_policy" {
     ]
   })
 
+  # Add a dependency to ensure the public access block is configured first
   depends_on = [aws_s3_bucket_public_access_block.static_website_bucket_public_access_block]
 }
 
